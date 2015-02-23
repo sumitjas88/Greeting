@@ -1,0 +1,51 @@
+buildscript {
+    repositories {
+        maven { url "https://repo.spring.io/libs-release" }
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.1.9.RELEASE")
+        classpath 'org.flywaydb:flyway-gradle-plugin:3.1'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+apply plugin: 'flyway'
+
+jar {
+    baseName = 'gs-rest-service'
+    version =  '0.1.0'
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url "https://repo.spring.io/libs-release" }
+    jcenter()
+}
+
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework:spring-jdbc")
+    compile("com.h2database:h2")
+    compile("org.springframework.security:spring-security-web:3.2.5.RELEASE")
+    compile("org.springframework.security:spring-security-config:3.2.5.RELEASE")
+    compile("javax.servlet:jstl:1.2")
+    testCompile("junit:junit")
+    testCompile "org.mockito:mockito-core:1.8.4"
+    testCompile "org.springframework:spring-test:4.0.3.RELEASE"
+    testCompile 'com.jayway.restassured:rest-assured:2.4.0'
+}
+flyway {
+    url = 'jdbc:h2:file:target/foobar'
+    user = 'sa'
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.11'
+}
